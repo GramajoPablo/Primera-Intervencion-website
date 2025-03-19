@@ -45,8 +45,31 @@ const Blog = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
+      // Add a timeout controller
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       try {
+        // Use fallback data immediately in development if no internet connection
+        if (process.env.NODE_ENV === 'development') {
+          try {
+            const posts = await getRecentPosts(3);
+            if (posts && posts.length > 0) {
+              setBlogPosts(posts);
+              clearTimeout(timeoutId);
+              return;
+            }
+          } catch (error) {
+            console.log("Network error in development, using fallback data");
+            setBlogPosts(fallbackPosts);
+            clearTimeout(timeoutId);
+            return;
+          }
+        }
+        
         const posts = await getRecentPosts(3);
+        clearTimeout(timeoutId);
+        
         // If we get empty posts or there's an error, use fallback data
         if (posts && posts.length > 0) {
           setBlogPosts(posts);
@@ -55,6 +78,7 @@ const Blog = () => {
           setBlogPosts(fallbackPosts);
         }
       } catch (error) {
+        clearTimeout(timeoutId);
         console.error("Error fetching blog posts:", error);
         setError("Error loading posts. Using sample data instead.");
         setBlogPosts(fallbackPosts);

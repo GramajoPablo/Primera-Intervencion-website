@@ -154,7 +154,7 @@ export function Navigation() {
           <Link href="#Servicios" className="block text-gray-600 hover:text-blue-500">Servicios</Link> {/* Updated hover color */}
           <Link href="#Contacto" className="block text-gray-600 hover:text-blue-500 pb-4">Contacto</Link> {/* Updated hover color */}
           <a
-            href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20paquetes%20de%20viajes."
+            href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20capacitaciones."
             target="_blank"
             rel="noopener noreferrer"
           >
