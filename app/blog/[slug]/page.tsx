@@ -7,8 +7,31 @@ import { PortableText } from '@portabletext/react';
 import Navigation from '@/components/ui/navigation';
 import { Footer } from '@/components/footer';
 
+// Define interfaces for type safety
+interface Author {
+  name: string;
+  image: any;
+  bio?: string;
+}
+
+interface Category {
+  title: string;
+}
+
+interface BlogPost {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  mainImage?: any;
+  categories?: Category[];
+  publishedAt: string;
+  author?: Author;
+  body?: any[];
+}
+
 // Sample fallback post for development
-const fallbackPost = {
+const fallbackPost: BlogPost = {
   _id: '1',
   title: "Primeros auxilios en caso de quemaduras",
   slug: { current: "primeros-auxilios-quemaduras" },
@@ -63,7 +86,7 @@ export async function generateStaticParams() {
       return [{ slug: "primeros-auxilios-quemaduras" }];
     }
     
-    return posts.map((post: any) => ({
+    return posts.map((post: BlogPost) => ({
       slug: post.slug.current,
     }));
   } catch (error) {
@@ -133,7 +156,7 @@ const components = {
 };
 
 export default async function BlogPost({ params }: { params: { slug: string } }) {
-  let post;
+  let post: BlogPost | null = null;
   
   try {
     post = await getPostBySlug(params.slug);
@@ -165,10 +188,10 @@ export default async function BlogPost({ params }: { params: { slug: string } })
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header className="mb-8">
           <div className="flex items-center text-sm text-gray-500 mb-2">
-            {post.categories?.map((category: any, index: number) => (
+            {post.categories?.map((category: Category, index: number) => (
               <span key={index} className="mr-2">
                 {category.title}
-                {index < post.categories.length - 1 && ", "}
+                {index < (post.categories?.length || 0) - 1 && ", "}
               </span>
             ))}
             <span className="mx-2">•</span>
