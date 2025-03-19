@@ -1,4 +1,4 @@
-import { getPostBySlug, getAllPosts } from '@/lib/api';
+import { getPostBySlug, getAllPosts, Post, Author, Category } from '@/lib/api';
 import { urlFor } from '@/lib/sanity';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -7,28 +7,8 @@ import { PortableText } from '@portabletext/react';
 import Navigation from '@/components/ui/navigation';
 import { Footer } from '@/components/footer';
 
-// Define interfaces for type safety
-interface Author {
-  name: string;
-  image: any;
-  bio?: string;
-}
-
-interface Category {
-  title: string;
-}
-
-interface BlogPost {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  description?: string;
-  mainImage?: any;
-  categories?: Category[];
-  publishedAt: string;
-  author?: Author;
-  body?: any[];
-}
+// Using the Post interface imported from api.ts
+type BlogPost = Post;
 
 // Sample fallback post for development
 const fallbackPost: BlogPost = {
@@ -181,6 +161,12 @@ export default async function BlogPost({ params }: { params: { slug: string } })
     }
   }
 
+  // At this point, post should never be null because we either have a real post,
+  // a fallback post in development, or we've called notFound() in production
+  if (!post) {
+    return notFound();
+  }
+
   return (
     <main className="min-h-screen">
       <Navigation />
@@ -191,7 +177,7 @@ export default async function BlogPost({ params }: { params: { slug: string } })
             {post.categories?.map((category: Category, index: number) => (
               <span key={index} className="mr-2">
                 {category.title}
-                {index < (post.categories?.length || 0) - 1 && ", "}
+                {index < (post?.categories?.length ?? 0) - 1 && ", "}
               </span>
             ))}
             <span className="mx-2">•</span>
@@ -204,7 +190,9 @@ export default async function BlogPost({ params }: { params: { slug: string } })
             </time>
           </div>
           
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">{post.title}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {post.title}
+          </h1>
           
           {post.description && (
             <p className="text-xl text-gray-600 mb-6">{post.description}</p>
@@ -222,33 +210,26 @@ export default async function BlogPost({ params }: { params: { slug: string } })
                     className="rounded-full"
                   />
                 </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-gray-200 mr-3 flex items-center justify-center">
-                  <span className="text-gray-500 text-xs">{post.author.name.charAt(0)}</span>
-                </div>
-              )}
+              ) : null}
               <div>
-                <p className="text-sm font-medium text-gray-900">{post.author.name}</p>
+                <p className="text-gray-900 font-medium">{post.author.name}</p>
               </div>
             </div>
           )}
         </header>
-        
-        {post.mainImage ? (
-          <div className="relative w-full h-96 mb-10">
+
+        {post.mainImage && (
+          <div className="relative w-full h-[400px] md:h-[500px] mb-12">
             <Image
               src={getImageUrl(post.mainImage) || "https://dummyimage.com/1200x600/e0e0e0/333333&text=Primera+Intervención"}
               alt={post.title}
               fill
               className="object-cover rounded-lg"
+              priority
             />
           </div>
-        ) : (
-          <div className="relative w-full h-96 mb-10 bg-gray-200 rounded-lg flex items-center justify-center">
-            <span className="text-gray-500 text-xl">Primera Intervención</span>
-          </div>
         )}
-        
+
         <div className="prose prose-lg max-w-none">
           {post.body && <PortableText value={post.body} components={components} />}
         </div>

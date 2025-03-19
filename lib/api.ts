@@ -1,6 +1,29 @@
 import { sanityClient } from './sanity';
 
-export async function getAllPosts() {
+// Define types for the API responses
+export interface Author {
+  name: string;
+  image?: any;
+  bio?: string;
+}
+
+export interface Category {
+  title: string;
+}
+
+export interface Post {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  description?: string;
+  mainImage?: any;
+  body?: any[];
+  categories?: Category[];
+  publishedAt: string;
+  author?: Author;
+}
+
+export async function getAllPosts(): Promise<Post[]> {
   const posts = await sanityClient.fetch(`
     *[_type == "post"] | order(publishedAt desc) {
       _id,
@@ -22,7 +45,7 @@ export async function getAllPosts() {
   return posts;
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
   const post = await sanityClient.fetch(`
     *[_type == "post" && slug.current == $slug][0] {
       _id,
@@ -46,7 +69,7 @@ export async function getPostBySlug(slug: string) {
   return post;
 }
 
-export async function getRecentPosts(limit = 3) {
+export async function getRecentPosts(limit = 3): Promise<Post[]> {
   const posts = await sanityClient.fetch(`
     *[_type == "post"] | order(publishedAt desc)[0...$limit] {
       _id,
