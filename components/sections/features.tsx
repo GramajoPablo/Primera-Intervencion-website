@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 
 import React from 'react';
@@ -66,7 +66,10 @@ export default function Features() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          
+          <h2 className="text-4xl font-bold text-white mb-4">Servicios</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Expertos en seguridad integral, ofreciendo soluciones innovadoras y personalizadas para la protección de su empresa y equipo.
+          </p>
         </motion.div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
