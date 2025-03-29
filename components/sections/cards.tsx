@@ -50,7 +50,7 @@ const CourseCard = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-6 text-blue-950">
-            Servicios
+            Capacitaciones
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
             Nuestra consultora en prevención de riesgos laborales te ayudará a 
