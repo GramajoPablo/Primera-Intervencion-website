@@ -57,7 +57,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, description, icon: Ico
 
 export default function Features() {
   return (
-    <section className="py-16 px-4 " style={{ backgroundColor: '#111827' }}>
+    <section id="servicios" className="py-16 px-4" style={{ backgroundColor: '#111827' }}>
       <div className="max-w-7xl mx-auto ">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

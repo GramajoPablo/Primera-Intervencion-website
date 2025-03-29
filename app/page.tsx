@@ -3,10 +3,11 @@ import  Hero2  from "@/components/sections/hero2";
 import Features from "@/components/sections/features";
 import Features2 from "@/components/sections/features2";
 import Blog from "@/components/sections/blog";
- import { FAQ } from "@/components/sections/faq";
+import { FAQ } from "@/components/sections/faq";
 import { CTA } from "@/components/sections/cta";
 import { Footer } from "@/components/footer";
 import Cards from "@/components/sections/cards";
+import Contact from "@/components/sections/contact";
 
 export default function Home() {
   return (
@@ -17,7 +18,7 @@ export default function Home() {
       <Features />
       <Features2 />
       <Blog />
-       
+      <Contact />
       <Footer />
     </main>
   );

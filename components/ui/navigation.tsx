@@ -1,9 +1,33 @@
 "use client";
 import * as React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { MenuIcon, X, ChevronDown, Facebook, Instagram, Linkedin } from "lucide-react"; // Import social icons
+import { MenuIcon, X, ChevronDown, Facebook, Instagram, Linkedin } from "lucide-react";
+import Link from "next/link";
+
+interface NavLinkProps {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ href, children, className, onClick }) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    if (onClick) onClick();
+  };
+
+  return (
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
+  );
+};
 
 export function Navigation() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -58,28 +82,11 @@ export function Navigation() {
           {/* Center Navigation Items */}
           <div className="hidden md:flex items-center justify-center flex-1 mx-8">
             <div className="flex items-center space-x-8">
-              <div className="relative">
-                <button
-                  className="flex items-center space-x-1 text-white hover:text-blue-500" 
-                  onClick={() => setIsFeatureOpen(!isFeatureOpen)}
-                >
-                  <span>Nosotros</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                {isFeatureOpen && (
-                  <div className="absolute top-full mt-2 w-48 bg-blue-500 rounded-md shadow-lg py-2">
-                    <Link href="#feature1" className="block px-4 py-2 text-white  hover:text-blue-900"> {/* Updated hover color */}
-                      Feature 1
-                    </Link>
-                    <Link href="#feature2" className="block px-4 py-2 text-white hover:text-blue-900"> {/* Updated hover color */}
-                      Feature 2
-                    </Link>
-                  </div>
-                )}
-              </div>
-              <Link href="#pricing" className="text-white hover:text-blue-500">Capacitaciones</Link> {/* Updated hover color */}
-              <Link href="#company" className="text-white hover:text-blue-500">Servicios</Link> {/* Updated hover color */}
-              <Link href="#resources" className="text-white hover:text-blue-500">Contacto</Link> {/* Updated hover color */}
+              <NavLink href="#header" className="text-white hover:text-blue-500">Nosotros</NavLink>
+              <NavLink href="#capacitaciones" className="text-white hover:text-blue-500">Capacitaciones</NavLink>
+              <NavLink href="#servicios" className="text-white hover:text-blue-500">Servicios</NavLink>
+              <NavLink href="#contacto" className="text-white hover:text-blue-500">Contacto</NavLink>
+              <a href="/blog" className="text-white hover:text-blue-500">Blog</a>
             </div>
           </div>
 
@@ -98,7 +105,7 @@ export function Navigation() {
                   <Linkedin className="w-5 h-5 text-white hover:text-blue-500" /> {/* Updated hover color */}
                 </Link>
                 <a
-                  href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20los%20paquetes%20de%20viajes."
+                  href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20conocer%20más%20sobre%20los%20servicios%20de%20capacitación%20en%20seguridad%20y%20respuesta%20ante%20emergencias%20de%20Primera%20Intervención."
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -131,30 +138,13 @@ export function Navigation() {
         variants={menuVariants}
       >
         <div className="px-4 py-4 space-y-4">
-          <div className="space-y-2">
-            <button
-              className="flex items-center justify-between w-full text-gray-600 hover:text-blue-500" 
-              onClick={() => setIsFeatureOpen(!isFeatureOpen)}
-            >
-              <span>Nosotros</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
-            {isFeatureOpen && (
-              <div className="pl-4 space-y-2">
-                <Link href="#feature1" className="block text-gray-600 hover:text-blue-500"> {/* Updated hover color */}
-                  Feature 1
-                </Link>
-                <Link href="#feature2" className="block text-gray-600 hover:text-blue-500"> {/* Updated hover color */}
-                  Feature 2
-                </Link>
-              </div>
-            )}
-          </div>
-          <Link href="#Capacitaciones" className="block text-gray-600 hover:text-blue-500">Capacitaciones</Link> {/* Updated hover color */}
-          <Link href="#Servicios" className="block text-gray-600 hover:text-blue-500">Servicios</Link> {/* Updated hover color */}
-          <Link href="#Contacto" className="block text-gray-600 hover:text-blue-500 pb-4">Contacto</Link> {/* Updated hover color */}
+          <NavLink href="#header" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Nosotros</NavLink>
+          <NavLink href="#capacitaciones" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Capacitaciones</NavLink>
+          <NavLink href="#servicios" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Servicios</NavLink>
+          <NavLink href="#contacto" className="block text-gray-600 hover:text-blue-500" onClick={() => setIsOpen(false)}>Contacto</NavLink>
+          <a href="/blog" className="block text-gray-600 hover:text-blue-500 pb-4">Blog</a>
           <a
-            href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20capacitaciones."
+            href="https://api.whatsapp.com/send?phone=+5491167373441&text=Hola,%20me%20interesa%20conocer%20más%20sobre%20los%20servicios%20de%20capacitación%20en%20seguridad%20y%20respuesta%20ante%20emergencias%20de%20Primera%20Intervención."
             target="_blank"
             rel="noopener noreferrer"
           >

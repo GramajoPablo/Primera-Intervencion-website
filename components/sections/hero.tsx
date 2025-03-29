@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-12 mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+    <div id="header" className="w-full max-w-7xl mx-auto px-4 py-12 mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
       {/* Left Content */}
       <div className="space-y-6">
         <div className="flex items-center gap-2">
