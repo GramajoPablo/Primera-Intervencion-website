@@ -41,15 +41,27 @@ const coursesData: Course[] = [
   },
 ];
 
+// Animation Variants
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 90,
+      damping: 15,
+    }
+  }
+};
+
 // 2. Component Refactoring: CourseCard sub-component
-const CourseCard = ({ course, index }: { course: Course; index: number }) => {
+const CourseCard = ({ course }: { course: Course }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.2 }}
-      className="bg-white rounded-xl shadow-md overflow-hidden md:flex md:h-64 group transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1"
+      variants={cardVariants}
+      whileHover={{ y: -5, boxShadow: "0px 10px 20px rgba(0,0,0,0.1)" }}
+      className="bg-white rounded-xl shadow-md overflow-hidden md:flex md:h-64 group"
     >
       <div className="md:w-1/2 relative h-48 md:h-full">
         <Image
@@ -117,14 +129,37 @@ const CourseModal = ({ course }: { course: Course }) => (
 );
 
 const Courses = () => {
+  const titleVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 80,
+        damping: 20,
+      },
+    },
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
   return (
     <section id="capacitaciones-modernas" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={titleVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
           <h2 className="text-5xl font-extrabold text-blue-950 mb-4">
@@ -134,11 +169,17 @@ const Courses = () => {
             Programas de formación diseñados para potenciar la seguridad y la eficiencia en tu entorno laboral.
           </p>
         </motion.div>
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-12">
-          {coursesData.map((course, index) => (
-            <CourseCard key={course.title} course={course} index={index} />
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-1 gap-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {coursesData.map((course) => (
+            <CourseCard key={course.title} course={course} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
