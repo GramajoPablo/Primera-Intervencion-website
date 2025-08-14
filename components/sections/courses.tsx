@@ -34,10 +34,10 @@ const coursesData: Course[] = [
     image: "/Formacio--n-de-Brigadistas-.jpeg",
   },
   {
-    title: "Gestión de Equipos",
+    title: "Gestión Estratégica de Equipos",
     description: "Liderazgo, coordinación y optimización de equipos.",
     longDescription: "Aprende las estrategias clave para liderar, coordinar y optimizar equipos de trabajo. Este curso está enfocado en mejorar la comunicación interpersonal, la resolución de conflictos y el fomento de un ambiente colaborativo, resultando en un notable incremento del desempeño y la productividad grupal.",
-    image: "/practicing-cpr-first-aid.jpg",
+    image: "/Gestión Estratégica de Equipos.jpg",
   },
 ];
 
